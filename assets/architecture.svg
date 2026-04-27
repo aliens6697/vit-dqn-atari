@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 560" font-family="ui-monospace, 'SF Mono', Menlo, Consolas, monospace">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="block" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="560" fill="url(#bg2)"/>
+
+  <text x="40" y="40" font-size="22" fill="#fff" font-weight="bold">Architecture · forward pass</text>
+  <text x="40" y="60" font-size="12" fill="#9ca3af">(batch, 4 frames, 84, 84) → patches → transformer → Dueling Q-head → (batch, n_actions)</text>
+
+  <!-- 1. frame stack -->
+  <g transform="translate(40,110)">
+    <rect width="170" height="160" rx="8" fill="url(#block)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="85" y="22" font-size="13" fill="#22d3ee" text-anchor="middle">1. Frame stack</text>
+
+    <g transform="translate(20,38)">
+      <rect x="0"  y="0"  width="80" height="80" fill="#0b1020" stroke="#475569"/>
+      <rect x="8"  y="8"  width="80" height="80" fill="#0b1020" stroke="#475569"/>
+      <rect x="16" y="16" width="80" height="80" fill="#0b1020" stroke="#475569"/>
+      <rect x="24" y="24" width="80" height="80" fill="#0b1020" stroke="#22d3ee"/>
+    </g>
+    <text x="85" y="148" font-size="10" fill="#9ca3af" text-anchor="middle">(B, 4, 84, 84)</text>
+  </g>
+
+  <!-- arrow -->
+  <line x1="220" y1="190" x2="262" y2="190" stroke="#a78bfa" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 2. patch embed -->
+  <g transform="translate(270,110)">
+    <rect width="200" height="160" rx="8" fill="url(#block)" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="100" y="22" font-size="13" fill="#a78bfa" text-anchor="middle">2. Patchify + Linear</text>
+    <g transform="translate(40,42)">
+      <!-- 6x6 patches -->
+      <g>
+        <rect x="0"  y="0"  width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="22" y="0"  width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="44" y="0"  width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="66" y="0"  width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="88" y="0"  width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="110" y="0" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+
+        <rect x="0"  y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="22" y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="44" y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="66" y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="88" y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="110" y="22" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+
+        <rect x="0"  y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="22" y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="44" y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="66" y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="88" y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="110" y="44" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+
+        <rect x="0"  y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="22" y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="44" y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="66" y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="88" y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="110" y="66" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+
+        <rect x="0"  y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="22" y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="44" y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="66" y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="88" y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+        <rect x="110" y="88" width="20" height="20" fill="#1f2937" stroke="#374151"/>
+      </g>
+    </g>
+    <text x="100" y="150" font-size="10" fill="#9ca3af" text-anchor="middle">14×14 patch · 36/frame · 144 tokens</text>
+  </g>
+
+  <line x1="480" y1="190" x2="522" y2="190" stroke="#a78bfa" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 3. + pos -->
+  <g transform="translate(530,110)">
+    <rect width="170" height="160" rx="8" fill="url(#block)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="85" y="22" font-size="13" fill="#22d3ee" text-anchor="middle">3. + Positional</text>
+    <g transform="translate(30,50)">
+      <rect width="110" height="20" fill="#1e293b" stroke="#22d3ee"/>
+      <text x="55" y="14" font-size="10" fill="#cbd5e1" text-anchor="middle">tokens (B, 144, 128)</text>
+      <text x="55" y="40" font-size="14" fill="#fbbf24" text-anchor="middle">+</text>
+      <rect y="50" width="110" height="20" fill="#1e293b" stroke="#a78bfa"/>
+      <text x="55" y="64" font-size="10" fill="#cbd5e1" text-anchor="middle">pos_embed (1,144,128)</text>
+    </g>
+    <text x="85" y="148" font-size="10" fill="#9ca3af" text-anchor="middle">learned, trunc-normal</text>
+  </g>
+
+  <line x1="710" y1="190" x2="752" y2="190" stroke="#a78bfa" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 4. transformer -->
+  <g transform="translate(760,110)">
+    <rect width="240" height="160" rx="8" fill="url(#block)" stroke="#a78bfa" stroke-width="1.5"/>
+    <text x="120" y="22" font-size="13" fill="#a78bfa" text-anchor="middle">4. Transformer × 4</text>
+    <g transform="translate(20,38)" font-size="10" fill="#cbd5e1">
+      <rect x="0"   y="0"  width="200" height="22" fill="#1e293b" stroke="#475569" rx="3"/>
+      <text x="100" y="15" text-anchor="middle">LayerNorm (pre-norm)</text>
+      <rect x="0"   y="26" width="200" height="22" fill="#1e293b" stroke="#22d3ee" rx="3"/>
+      <text x="100" y="41" text-anchor="middle" fill="#22d3ee">Multi-Head Self-Attention · 4h</text>
+      <rect x="0"   y="52" width="200" height="22" fill="#1e293b" stroke="#475569" rx="3"/>
+      <text x="100" y="67" text-anchor="middle">LayerNorm</text>
+      <rect x="0"   y="78" width="200" height="22" fill="#1e293b" stroke="#a78bfa" rx="3"/>
+      <text x="100" y="93" text-anchor="middle" fill="#a78bfa">FFN  128 → 512 → 128</text>
+    </g>
+    <text x="120" y="148" font-size="10" fill="#9ca3af" text-anchor="middle">d_model=128 · norm_first=True</text>
+  </g>
+
+  <line x1="1010" y1="190" x2="1052" y2="190" stroke="#a78bfa" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- 5. pool -->
+  <g transform="translate(1060,110)">
+    <rect width="180" height="160" rx="8" fill="url(#block)" stroke="#22d3ee" stroke-width="1.5"/>
+    <text x="90" y="22" font-size="13" fill="#22d3ee" text-anchor="middle">5. Pool + LN</text>
+    <g transform="translate(20,50)" font-size="10" fill="#cbd5e1">
+      <text x="70" y="0" text-anchor="middle">mean over 144 tokens</text>
+      <line x1="0" y1="14" x2="140" y2="14" stroke="#22d3ee" stroke-width="1.5"/>
+      <rect x="20" y="28" width="100" height="22" fill="#1e293b" stroke="#22d3ee"/>
+      <text x="70" y="43" text-anchor="middle">(B, 128)</text>
+    </g>
+    <text x="90" y="148" font-size="10" fill="#9ca3af" text-anchor="middle">global avg pool</text>
+  </g>
+
+  <!-- DOWN to dueling -->
+  <line x1="640" y1="280" x2="640" y2="320" stroke="#a78bfa" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="650" y="305" font-size="11" fill="#9ca3af">pooled (B, 128)</text>
+
+  <!-- Dueling head -->
+  <g transform="translate(290,330)">
+    <rect width="700" height="180" rx="8" fill="url(#block)" stroke="#fbbf24" stroke-width="1.5"/>
+    <text x="350" y="24" font-size="13" fill="#fbbf24" text-anchor="middle">6. Dueling Q-head</text>
+
+    <!-- value stream -->
+    <g transform="translate(40,46)" font-size="11" fill="#cbd5e1">
+      <text x="60" y="0" text-anchor="middle" fill="#34d399">Value V(s)</text>
+      <rect x="0" y="10" width="120" height="22" fill="#1e293b" stroke="#34d399"/>
+      <text x="60" y="25" text-anchor="middle">Linear 128→128</text>
+      <rect x="0" y="36" width="120" height="22" fill="#1e293b" stroke="#34d399"/>
+      <text x="60" y="51" text-anchor="middle">ReLU</text>
+      <rect x="0" y="62" width="120" height="22" fill="#1e293b" stroke="#34d399"/>
+      <text x="60" y="77" text-anchor="middle">Linear 128→1</text>
+      <text x="60" y="105" text-anchor="middle" fill="#34d399" font-size="14">V(s) · scalar</text>
+    </g>
+
+    <!-- advantage stream -->
+    <g transform="translate(440,46)" font-size="11" fill="#cbd5e1">
+      <text x="60" y="0" text-anchor="middle" fill="#60a5fa">Advantage A(s,a)</text>
+      <rect x="0" y="10" width="120" height="22" fill="#1e293b" stroke="#60a5fa"/>
+      <text x="60" y="25" text-anchor="middle">Linear 128→128</text>
+      <rect x="0" y="36" width="120" height="22" fill="#1e293b" stroke="#60a5fa"/>
+      <text x="60" y="51" text-anchor="middle">ReLU</text>
+      <rect x="0" y="62" width="120" height="22" fill="#1e293b" stroke="#60a5fa"/>
+      <text x="60" y="77" text-anchor="middle">Linear 128→n_act</text>
+      <text x="60" y="105" text-anchor="middle" fill="#60a5fa" font-size="14">A(s,a) · vector</text>
+    </g>
+
+    <!-- combine -->
+    <g transform="translate(220,80)">
+      <text x="130" y="0" font-size="13" fill="#fbbf24" text-anchor="middle">Q(s,a) = V(s) + A(s,a) − mean(A)</text>
+      <line x1="0" y1="20" x2="260" y2="20" stroke="#fbbf24" stroke-width="2"/>
+      <rect x="40" y="40" width="180" height="36" fill="#1e293b" stroke="#fbbf24" rx="4"/>
+      <text x="130" y="63" font-size="14" fill="#fbbf24" text-anchor="middle">Q-values (B, n_actions)</text>
+    </g>
+  </g>
+
+  <!-- legend -->
+  <g transform="translate(40,520)" font-size="11" fill="#9ca3af">
+    <text>Forward pass: pixels → 144 tokens → self-attention → pooled vector → Dueling Q · runs in bf16 on CUDA</text>
+  </g>
+</svg>
